@@ -62,7 +62,15 @@
     <h1>✨Nush's Countdown to Wanderer✨</h1>
     <h1 id="date">Loading...</h1>
     <script>
-        const until = new Date("July 5, 2023 18:30:00Z");
+        function parseDate(str) {
+            const [dateparts, timeparts] = str.split(" ");
+            const [year, month, day] = dateparts.split("-");
+            const [hours = 0, minutes = 0, seconds = 0] = timeparts?.split(":") ?? [];
+            return new Date(Date.UTC(+year, +month - 1, +day, +hours, +minutes, +seconds));
+        }
+
+        const until = parseDate("2023-07-05 18:30:00");
+        //const until = new Date("July 5, 2023 18:30:00Z");
         let dateElem = document.getElementById("date");
 
         let updateState = () => {
