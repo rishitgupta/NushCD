@@ -50,14 +50,24 @@
             user-select: none;
         }
 
+        iframe {
+            width: 75vw;
+            height: 75vh;
+        }
+
         @media screen and (max-device-width: 768px) {
             h1 {
                 font-size: 5vh;
             }
+
+            iframe {
+                width: 85vw;
+                height: 30vh;
+            }
         }
     </style>
 </head>
-<body>
+<body id="body">
     <img src="https://www.gensh.in/fileadmin/Database/Characters/Wanderer/charPortrait_wanderer.png" alt="WANDERER COOL IMG" id="wanderer">
     <h1>✨Nush's Countdown to Wanderer✨</h1>
     <h1 id="date">Loading...</h1>
@@ -69,24 +79,29 @@
             return new Date(Date.UTC(+year, +month - 1, +day, +hours, +minutes, +seconds));
         }
 
-        const until = parseDate("2023-07-05 18:30:00");
+        const until = parseDate("2013-07-05 18:30:00");
         //const until = new Date("July 5, 2023 18:30:00Z");
         let dateElem = document.getElementById("date");
 
         let updateState = () => {
-            let difference = Math.abs(until - Date.now());
+            let difference = until - Date.now();
 
-            let days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            days = days < 10 ? `0${days}` : days;
-            let hours =  Math.floor((difference / (1000 * 60 * 60)) % 24);
-            hours = hours < 10 ? `0${hours}` : hours;
-            let minutes = Math.floor((difference / (1000 * 60)) % 60);
-            minutes = minutes < 10 ? `0${minutes}` : minutes;
-            let seconds = Math.floor((difference / 1000) % 60);
-            seconds = seconds < 10 ? `0${seconds}` : seconds;
+            if (difference <= 0) {
+                let body = document.getElementById("body");
+                body.innerHTML = `<iframe src="https://www.youtube.com/embed/bR6mU6tOk1M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+            } else {
+                let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                days = days < 10 ? `0${days}` : days;
+                let hours =  Math.floor((difference / (1000 * 60 * 60)) % 24);
+                hours = hours < 10 ? `0${hours}` : hours;
+                let minutes = Math.floor((difference / (1000 * 60)) % 60);
+                minutes = minutes < 10 ? `0${minutes}` : minutes;
+                let seconds = Math.floor((difference / 1000) % 60);
+                seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-            dateElem.innerHTML = `${days} : ${hours} : ${minutes} : ${seconds}`;
-            setTimeout(updateState, 1000);
+                dateElem.innerHTML = `${days} : ${hours} : ${minutes} : ${seconds}`;
+                setTimeout(updateState, 1000);   
+            }
         }
 
         updateState();
